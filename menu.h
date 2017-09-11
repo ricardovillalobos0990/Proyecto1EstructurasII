@@ -1,8 +1,9 @@
 void menu()
 {
 	//---------------------------------------------------------
-	int opcion = 0, subOpcion = 0, buscar = 0;
-	int* pOpcion = &opcion, *pSubOpcion = &subOpcion, *pBuscar = &buscar;
+	int opcion = 0, subOpcion = 0, buscar=0, *pBuscar;
+	int* pOpcion = &opcion, *pSubOpcion = &subOpcion;
+	pBuscar=&buscar;
 	char nombre[10] = "sebastian";
 	printf("%d", sizeof(char[10]));
 	
@@ -68,7 +69,7 @@ void menu()
 						case 2:
 						{
 							gotoxy(20,15);printf("Ingrese el id del cliente a buscar ");
-							scanf("%d", &buscar);
+							scanf("%d", &pBuscar);
 							system("cls");
 							dibujaRectangulo(1,1,79,24);
 							buscar_cliente(pBuscar);
@@ -128,17 +129,21 @@ void menu()
 						};
 						case 2:
 						{
-							
 							system("cls");
 							dibujaRectangulo(1,1,80,24);
 							mostrar_productos();
 							getch();
 							break;
-							
 						};
 						case 3:
-						{
-					
+						{	
+							system("cls");
+							gotoxy(20,15);printf("Ingrese el id del cliente a buscar ");
+							scanf("%d", &buscar);
+							dibujaRectangulo(1,1,80,24);
+							editar_productos(pBuscar);
+							getch();
+							break;
 						};
 						
 					}

@@ -5,6 +5,8 @@ struct producto
 	float valor;
 } productos, copiaproductos, *pproductos = &productos, *pcopiaproductos = &copiaproductos;
 
+int subOpcion, i =0;
+
 bool crear_productos()
 {
 	FILE *archivo;
@@ -75,118 +77,52 @@ bool mostrar_productos()
 
 
 
-void modificar (int *peditar){
+void editar_productos (int *pBuscar){
 	
-	
-}
-case 4: {
+	FILE *archivo;
+	archivo=fopen("datos/productos","rb+");
+	rewind(archivo);
+	int bandera=0;
+	while(fread(&productos, sizeof(productos), 1, archivo)){
+	if (*pBuscar==pproductos->id){
+		bandera=1;
+		break;
+		}i++;
+	}
+if(bandera ==0){
+	printf("El dato no existe");
+}else{
 	int modifica=1;
-	char n_nombre [15];
-	char n_apellido [15];
-	float n_nota1,n_nota2,n_nota3,n_definitiva;	
-	system("cls");
- 	archivo = fopen("archivos/estudiantes.txt","rb+");
- 	rewind(archivo);  
- 	cout << " Ingrese la Cedula a Modificar " << endl;
- 	cin>>buscar;
- 	int bandera = 0;
- 	while(fread(&dato,sizeof(dato),1,archivo)){
-	if(strcmp(buscar,dato.cedula)==0){
-				bandera = 1;
-				break;
-		       }i++;   
-	        }
-	if(bandera == 0){
-	cout << "El dato no existe" << endl;
-	    		}else{
-	while(modifica!=0){  	
-		 		if(strcmp(buscar,dato.cedula)==0){
-				system("cls");
-				rectangulo(22,76);
-				gotoxy(34,2);cout<<"CONSULTA DE CEDULAS";
-				gotoxy(3,4);cout<<"ID";
-				gotoxy(7,4);cout<<"CEDULA";
-				gotoxy(18,4);cout<<"NOMBRE";
-				gotoxy(39,4);cout<<"APELLIDOS";
-				gotoxy(60,4);cout<<"N1";
-				gotoxy(64,4);cout<<"N2";
-				gotoxy(68,4);cout<<"N3";
-				gotoxy(72,4);cout<<"DEF";
-				gotoxy(3,5+i);cout<<i;
-				gotoxy(7,5+i);cout<<dato.cedula;
-				gotoxy(18,5+i);cout<<dato.nombre;
-				gotoxy(39,5+i);cout<<dato.apellido;
-				gotoxy(60,5+i);cout<<dato.nota1;
-				gotoxy(64,5+i);cout<<dato.nota2;
-				gotoxy(68,5+i);cout<<dato.nota3;
-				gotoxy(72,5+i);
-				cout<<dato.notadefinitiva<<endl;
-				}
-	    		cout<< " MENU"<<endl;
-	            cout<< " 1. Modificar Nombre"<<endl;
-	            cout<< " 2. Modificar Apellido"<<endl;
-	            cout<< " 3. Modificar Nota 1"<<endl;
-	            cout<< " 4. Modificar Nota 2"<<endl;
-	            cout<< " 5. Modificar Nota 3"<<endl;
-	            cout<< " 0. Salir"<<endl;
-	            cout<< " Seleccione la Opcion";
-	            cin>>modifica;
-	            cin.ignore(256,'\n');
-	            switch (modifica){
-	                case 1:{
-	                cout<< " Ingrese el nuevo NOMBRE " << endl;
-	                cin.getline(n_nombre,15);
-	                fseek(archivo,ftell(archivo)-sizeof(dato),SEEK_SET);
-		            (fread(&dato,sizeof(dato),1,archivo));
-		            strcpy(dato.nombre,n_nombre);
-		            fseek(archivo,ftell(archivo)-sizeof(dato),SEEK_SET);
-		            fwrite(&dato,sizeof(dato),1,archivo);
+	while(modifica!=0){
+		gotoxy(4,12);printf(" Editar Producto");
+		gotoxy(4,13);printf(" ID");
+		gotoxy(4,14);printf(" Nombre");
+		gotoxy(4,15);printf(" Valor");
+		if (*pBuscar==pproductos->id){
+		gotoxy(3,7+i);printf("%d", pproductos->id);
+		gotoxy(3,8+i);printf("%s", pproductos->nombre);
+		gotoxy(3,9+i);printf("%f", pproductos->valor);
+		}
+		gotoxy(34,2);printf("CONSULTA DE PRODUCTOS");
+		gotoxy(3,4);printf("ID");
+		gotoxy(3,5);printf("Nombre");
+		gotoxy(3,6);printf("Valor");
+		printf("Seleccione la opcion");
+		scanf("%d", &subOpcion);
+		switch (subOpcion){
+		case 1:{
+					system("cls");
+					int n_id, *pn_id=&n_id;
+					printf("Editar Producto \n");
+					printf("Digite el numero de la cedula \n");
+					scanf("%d", pn_id);
+	                fseek(archivo,ftell(archivo)-sizeof(pproductos),SEEK_SET);
+		            (fread(&productos, sizeof(productos),1,archivo));
+		            pproductos->id=*pn_id;
+		            fseek(archivo,ftell(archivo)-sizeof(productos),SEEK_SET);
+		            fwrite(&productos,sizeof(productos),1,archivo);
 					break;
 					}
-					case 2:{
-					cout<< " Ingrese el APELLIDO"<<endl;
-					cin.getline(n_apellido,20);
-					fseek(archivo,ftell(archivo)-sizeof(dato),SEEK_SET);
-		            (fread(&dato,sizeof(dato),1,archivo));
-		            strcpy(dato.apellido,n_apellido);
-		            fseek(archivo,ftell(archivo)-sizeof(dato),SEEK_SET);
-		            fwrite(&dato,sizeof(dato),1,archivo);
-					break;
-					}
-					case 3:{
-					cout<< " Ingrese el nuevo Valor para la NOTA 1 " << endl;
-					cin>>n_nota1;
-					fseek(archivo,ftell(archivo)-sizeof(dato),SEEK_SET);
-		            (fread(&dato,sizeof(dato),1,archivo));
-		            dato.nota1=n_nota1;
-		            dato.notadefinitiva=(dato.nota1*0.35)+(dato.nota2*0.35)+(dato.nota3*0.30);
-		            fseek(archivo,ftell(archivo)-sizeof(dato),SEEK_SET);
-		            fwrite(&dato,sizeof(dato),1,archivo);
-					break;
-					}
-					case 4:{
-					cout<< " Ingrese el nuevo Valor para la NOTA 2 " <<endl;
-					cin>>n_nota2;
-					fseek(archivo,ftell(archivo)-sizeof(dato),SEEK_SET);
-		            (fread(&dato,sizeof(dato),1,archivo));
-		            dato.nota2=n_nota2;
-		            dato.notadefinitiva=(dato.nota1*0.35)+(dato.nota2*0.35)+(dato.nota3*0.30);
-		            fseek(archivo,ftell(archivo)-sizeof(dato),SEEK_SET);
-		            fwrite(&dato,sizeof(dato),1,archivo);
-					break;
-					}
-					case 5:{
-					cout<< " Ingrese el nuevo Valor para la NOTA 3"<<endl;
-					cin>>n_nota3;
-					fseek(archivo,ftell(archivo)-sizeof(dato),SEEK_SET);
-		            (fread(&dato,sizeof(dato),1,archivo));
-		            dato.nota3=n_nota3;
-		            dato.notadefinitiva=(dato.nota1*0.35)+(dato.nota2*0.35)+(dato.nota3*0.30);
-		            fseek(archivo,ftell(archivo)-sizeof(dato),SEEK_SET);
-		            fwrite(&dato,sizeof(dato),1,archivo);      
-	                rewind(archivo);
-					break;
-							}
 					case 0:
 					{
 					break;
@@ -194,17 +130,16 @@ case 4: {
 					default:
 					{
 					system("cls");
-					rectangulo(22,76);
+					dibujaRectangulo(1,1,79,24);
 					gotoxy(34,6);
-					cout<<"MODIFICAR";
+					printf( " MODIFICAR " );
 					gotoxy(3,5);
-					cout<<"Opcion Invalida"<<endl;
+					printf("\n Opcion Invalida");
 					system("pause");
 					break;
 					}
-				}
-	    	}
-	    }
-		fclose(archivo);
-		break;	  	
-       	}
+			}
+		}
+	}
+}
+
