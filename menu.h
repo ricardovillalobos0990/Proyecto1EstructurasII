@@ -138,7 +138,8 @@ void menu()
 						case 3:
 						{	
 							system("cls");
-							gotoxy(20,15);printf("Ingrese el id del cliente a buscar ");
+							dibujaRectangulo(1,1,80,24);
+							gotoxy(20,5);printf("Ingrese el id del Prodcuto a Buscar ");
 							scanf("%d", &buscar);
 							dibujaRectangulo(1,1,80,24);
 							editar_productos(pBuscar);
